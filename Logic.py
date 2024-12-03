@@ -17,7 +17,21 @@ class APPLogic:
         :returns:
             dict: the added task
         """
-        pass
+        #Make a unique ID based on current task count
+        task_id = len(self.tasks) + 1
+
+        #Create a task dictionary
+        task = {
+            "id": task_id,
+            "name": name,
+            "category": category,
+            "priority": priority,
+            "status": "Pending"
+        }
+
+        # Add task to list
+        self.tasks.append(task)
+        return task
 
     def delete_task(self, task_id: int) -> bool:
         """
@@ -97,4 +111,6 @@ class APPLogic:
             bool: True if loaded successfully, False otherwise.
         """
         pass
+
+
 
