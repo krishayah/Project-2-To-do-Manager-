@@ -64,6 +64,21 @@ class APPLogic:
                 return True
         return False
 
+    def get_completed_tasks(self) -> list:
+        """
+        Get all tasks that are marked completed
+        """
+        #filter tasks that are marked as completed
+        completed_tasks = []
+        for task in self.tasks:
+            #check if task is marked as completed
+            if task ["completed"]:
+                #if completed, add it to completed_tasks list
+                completed_tasks.append(task)
+
+        return completed_tasks
+
+
     def edit_task(self, task_id: int, **kwargs) -> bool:
         """
         Edits an existing task.
@@ -184,7 +199,6 @@ class APPLogic:
                         "category": row["category"],
                         "priority": row ["priority"],
                         "status": row["status"],
-
                     }
                     for row in reader
                 ]
