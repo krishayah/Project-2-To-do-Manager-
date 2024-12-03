@@ -1,3 +1,6 @@
+import csv
+
+
 class APPLogic:
     """
     Core logic for To-Do List Manager App
@@ -56,8 +59,9 @@ class APPLogic:
              bool: True if marked as completed, False if Task not found.
         """
         for task in self.tasks:
-            task["status"] = "Completed"
-            return True
+            if task["id"] == task_id:
+                task["status"] = "Completed"
+                return True
         return False
 
     def edit_task(self, task_id: int, **kwargs) -> bool:
@@ -112,7 +116,37 @@ class APPLogic:
         Returns:
             bool: True if input is valid, False otherwise.
         """
-        pass
+        #Validation Rules
+        if "name" in kwargs:
+            name = kwargs["name"]
+            if not name: #check if name is empty or None
+                print("'name' field is empty")
+                return False
+            if not isinstance(name, str):  # Check if the name is not a string
+                print("Validation failed: 'name' field must be a string.")
+                return False
+
+        # Validate the 'category' field
+        if "category" in kwargs:
+            category = kwargs["category"]
+            if not category:  # Check if the category is empty or None
+                print("Validation failed: 'category' field is empty.")
+                return False
+            if not isinstance(category, str):  # Check if the category is not a string
+                print("Validation failed: 'category' field must be a string.")
+                return False
+
+        # Validate the 'priority' field
+        if "priority" in kwargs:
+            priority = kwargs["priority"]
+            valid_priorities = ["Low", "Medium", "High"]  # List of valid priority levels
+            if priority not in valid_priorities:  # Check if the priority is not valid
+                print(f"Validation failed: 'priority' must be one of {valid_priorities}.")
+                return False
+
+        # If all validations pass, return True
+        return True
+
 
     def save_to_file(self, filename: str) -> bool:
         """
@@ -122,17 +156,44 @@ class APPLogic:
         Returns:
             bool: True if saved successfully, False otherwise.
         """
-        pass
+        try:
+            with open(filename, mode="w", newline="", encoding = "utf-8") as file:
+                writer = csv.DictWriter (file, fieldnames = ["id", "name", "category", "priority", "status"])
+                writer.writeheader()
+                writer.writerow(self.tasks)
+            return True
+        except Exception as e:
+            print(f"Error saving to file: {e}")
+            return False
 
     def load_tasks_4m_file(self, filename: str) -> bool:
         """
         Load tasks from a CSV file.
         Args:
-            filename (str): Path to the file.
+            filename (str): Path to file.
         Returns:
             bool: True if loaded successfully, False otherwise.
         """
-        pass
+        try:
+            with open(filename, mode = "r", newline = "", encoding = "utf-8") as file:
+                reader = csv.DictReader(file)
+                self.tasks = [
+                    {
+                        "id": int(row["id"]),
+                        "name": row["name"],
+                        "category": row["category"],
+                        "priority": row ["priority"],
+                        "status": row["status"],
+
+                    }
+                    for row in reader
+                ]
+            return True
+        except Exception as e:
+            print (f"Error loading from file: {e}")
+            return False
+
+
 
 
 
