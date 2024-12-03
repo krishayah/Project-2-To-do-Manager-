@@ -41,7 +41,11 @@ class APPLogic:
         Returns:
             bool: True if task = deleted, False if task Not Found!
         """
-        pass
+        for task in self.tasks:
+            if task["id"] == task_id:
+                self.tasks.remove(task)
+                return True
+            return False
 
     def mark_completed(self, task_id: int) -> bool:
         """
@@ -51,17 +55,28 @@ class APPLogic:
         Returns:
              bool: True if marked as completed, False if Task not found.
         """
-        pass
+        for task in self.tasks:
+            task["status"] = "Completed"
+            return True
+        return False
 
     def edit_task(self, task_id: int, **kwargs) -> bool:
         """
         Edits an existing task.
         Args:
             task_id (int): Unique ID of the task.
+            **kwargs: Fields to update (e.g., name, category, priority).
         Returns:
             bool: True if Task was edited, False if task Not Found.
         """
-        pass
+        for task in self.tasks:
+            if task["id"]== task_id:
+                #update provided fields
+                for key, value in kwargs.items():
+                    if key in task:
+                        task[key] = value
+                return True
+        return False
 
     def get_all_tasks(self) -> list:
         """
@@ -69,7 +84,7 @@ class APPLogic:
         Returns:
             list: List of tasks
         """
-        pass
+        return self.tasks
 
     def search_tasks(self, keyword: str) -> list:
         """
@@ -79,7 +94,14 @@ class APPLogic:
         Returns:
             list: List of matching tasks.
         """
-        pass
+        keyword_lower = keyword.lower()
+        return[
+            task for task in self.tasks
+            if keyword_lower in task["name"].lower()
+            or keyword_lower in task["category"].lower()
+            or keyword_lower in task["priority"].lower()
+            or keyword_lower in task["status"].lower()
+        ]
 
     """UTILITY FUNCTIONS"""
     def validate_input(self, **kwargs):
