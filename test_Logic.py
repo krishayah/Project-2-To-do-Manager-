@@ -200,6 +200,24 @@ class TestAPPLogic(unittest.TestCase):
         result = self.app_logic.validate_input(name="Test Task", category="Work", priority="Urgent")
         self.assertFalse(result)
 
+    """TEST SAVING FILE"""
+    def test_save_to_file(self):
+        """Test saving tasks to a file."""
+        # Add a task to save
+        self.app_logic.add_task(name="Test Task", category="Work", priority="High")
+        result = self.app_logic.save_to_file("tasks.csv")
+        self.assertTrue(result)
+
+        # Verify that the file exists and can be read
+        with open("tasks.csv", mode="r", newline="", encoding="utf-8") as file:
+            lines = file.readlines()
+            self.assertGreater(len(lines), 0)  # Ensure the file is not empty
+
+    def test_save_to_file_invalid(self):
+        """Test saving tasks to a file with invalid path."""
+        result = self.app_logic.save_to_file("/invalid/path/tasks.csv")
+        self.assertFalse(result)
+
 
 if __name__ == '__main__':
     unittest.main()

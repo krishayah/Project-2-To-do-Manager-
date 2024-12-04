@@ -176,7 +176,7 @@ class APPLogic:
             # Open the file in write mode
             with open(filename, mode="w", newline="", encoding="utf-8") as file:
                 # Create a CSV writer that can handle dictionaries
-                writer = csv.DictWriter(file, fieldnames=["id", "name", "category", "priority", "completed"])
+                writer = csv.DictWriter(file, fieldnames=["id", "name", "category", "priority", "status", "completed"])
 
                 # Write the header row (fieldnames)
                 writer.writeheader()
