@@ -50,15 +50,17 @@ class APPLogic:
                 return True
             return False
 
+
     def mark_completed(self, task_id: int) -> bool:
         """
         Mark a task as completed.
         Args:
             task_id (int): Unique ID of task
         Returns:
-             bool: True if marked as completed, False if Task not found.
+            bool: True if marked as completed, False if Task not found.
         """
         for task in self.tasks:
+            print(f"Checking task: {task}")  # Print each task
             if task["id"] == task_id:
                 task["status"] = "Completed"
                 return True

@@ -80,13 +80,19 @@ class TestAPPLogic(unittest.TestCase):
         self.assertEqual(len(self.app_logic.tasks), 1)
 
     def test_mark_completed_existing(self):
-        """ Test marking an existing task as completed"""
-        task_id = 1 #ID of first task
-        result = self.app_logic.mark_completed(task_id)
+        """Test marking an existing task as completed."""
+        self.app_logic = APPLogic()
+        self.app_logic.add_task(name="Test Task 1", category="Work", priority="High")
+        self.app_logic.add_task(name="Test Task 2", category="Personal", priority="Low")
 
-        #assert that task is marked completed
-        self.assertTrue(result)
-        self.assertEqual(self.app_logic.tasks[0]["status"], "completed")
+        task_id = 1  # ID of the first task
+        print(f"Task list before marking completed: {self.app_logic.tasks}")
+        result = self.app_logic.mark_completed(task_id)
+        print(f"Task list after marking completed: {self.app_logic.tasks}")
+
+        # Assert that the task was marked completed
+        self.assertTrue(result)  # Ensure mark_completed returns True
+        self.assertEqual(self.app_logic.tasks[0]["status"], "Completed")  # Check status
 
     def test_mark_completed_nonexistent(self):
         """Test marking a non_existent task as completed"""
@@ -95,6 +101,7 @@ class TestAPPLogic(unittest.TestCase):
 
         #Make sure it returns false
         self.assertFalse(result)
+
 
 if __name__ == '__main__':
     unittest.main()
