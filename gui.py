@@ -8,7 +8,6 @@
 
 from PyQt6 import QtCore, QtWidgets
 
-
 class Ui_To_Do_List(object):
     """
     This class defines the GUI layout and elements for the To-Do List Manager.
