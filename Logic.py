@@ -167,19 +167,29 @@ class APPLogic:
         """
         Save tasks to a CSV file.
         Args:
-            filename (str): Path to the file.
+            filename (str): Path to file.
         Returns:
             bool: True if saved successfully, False otherwise.
         """
         try:
-            with open(filename, mode="w", newline="", encoding = "utf-8") as file:
-                writer = csv.DictWriter (file, fieldnames = ["id", "name", "category", "priority", "status"])
+            # Open the file in write mode
+            with open(filename, mode="w", newline="", encoding="utf-8") as file:
+                # Create a CSV writer that can handle dictionaries
+                writer = csv.DictWriter(file, fieldnames=["id", "name", "category", "priority", "completed"])
+
+                # Write the header row (fieldnames)
                 writer.writeheader()
-                writer.writerow(self.tasks)
-            return True
+
+                # Write each task (as a dictionary) to the file
+                for task in self.tasks:
+                    writer.writerow(task)  # Each task is a dictionary
+
+            return True  # Return True if write was successful
+
         except Exception as e:
+            # Handle any errors that occur during file writing
             print(f"Error saving to file: {e}")
-            return False
+            return False  # Return False if there was an error
 
     def load_tasks_4m_file(self, filename: str) -> bool:
         """
@@ -206,6 +216,7 @@ class APPLogic:
         except Exception as e:
             print (f"Error loading from file: {e}")
             return False
+
 
 
 
