@@ -218,6 +218,24 @@ class TestAPPLogic(unittest.TestCase):
         result = self.app_logic.save_to_file("/invalid/path/tasks.csv")
         self.assertFalse(result)
 
+    """TEST LOADING TASKS"""
+    def test_load_tasks_4m_file(self):
+        """Test loading tasks from file"""
+        # Save a task to a file first
+        self.app_logic.add_task(name="Test Task", category="Work", priority="High")
+        self.app_logic.save_to_file("tasks.csv")
+
+        # Load tasks from file
+        result = self.app_logic.load_tasks_4m_file("tasks.csv")
+        self.assertTrue(result)
+
+        # Check if tasks are correctly loaded
+        self.assertGreater(len(self.app_logic.tasks), 0)  # Ensure tasks list is not empty
+
+    def test_load_tasks_4m_file_invalid(self):
+        """Test loading tasks from an invalid file."""
+        result = self.app_logic.load_tasks_4m_file("invalid_file.csv")
+        self.assertFalse(result)
 
 if __name__ == '__main__':
     unittest.main()
