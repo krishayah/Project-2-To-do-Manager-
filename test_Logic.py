@@ -102,6 +102,21 @@ class TestAPPLogic(unittest.TestCase):
         #Make sure it returns false
         self.assertFalse(result)
 
+    def test_get_completed(self):
+        """Test getting all tasks marked as completed."""
+        self.app_logic.add_task(name="Task 1", category="Work", priority="High")
+        self.app_logic.add_task(name="Task 2", category="Personal", priority="Medium")
+        self.app_logic.add_task(name="Task 3", category="Study", priority="Low")
+
+        self.app_logic.mark_completed(1)  # Mark Task 1 as completed
+        self.app_logic.mark_completed(3)  # Mark Task 3 as completed
+
+        completed_tasks = self.app_logic.get_completed_tasks()  # Get completed tasks
+
+        self.assertEqual(len(completed_tasks), 2)  # Two tasks should be marked as completed
+        self.assertEqual(completed_tasks[0]["id"], 1)  # Check first completed task
+        self.assertEqual(completed_tasks[1]["id"], 3)  # Check second completed task
+        self.assertTrue(all(task["status"] == "Completed" for task in completed_tasks))  # Verify status
 
 if __name__ == '__main__':
     unittest.main()

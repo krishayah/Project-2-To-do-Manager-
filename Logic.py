@@ -1,6 +1,5 @@
 import csv
 
-
 class APPLogic:
     """
     Core logic for To-Do List Manager App
@@ -74,7 +73,7 @@ class APPLogic:
         completed_tasks = []
         for task in self.tasks:
             #check if task is marked as completed
-            if task ["completed"]:
+            if task["status"] == "Completed":
                 #if completed, add it to completed_tasks list
                 completed_tasks.append(task)
 
