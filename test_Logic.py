@@ -79,6 +79,22 @@ class TestAPPLogic(unittest.TestCase):
         # Assert that task list size stays the same
         self.assertEqual(len(self.app_logic.tasks), 1)
 
+    def test_mark_completed_existing(self):
+        """ Test marking an existing task as completed"""
+        task_id = 1 #ID of first task
+        result = self.app_logic.mark_completed(task_id)
+
+        #assert that task is marked completed
+        self.assertTrue(result)
+        self.assertEqual(self.app_logic.tasks[0]["status"], "completed")
+
+    def test_mark_completed_nonexistent(self):
+        """Test marking a non_existent task as completed"""
+        task_id = 999 #non-existent task_id
+        result = self.app_logic.mark_completed(task_id)
+
+        #Make sure it returns false
+        self.assertFalse(result)
 
 if __name__ == '__main__':
     unittest.main()
