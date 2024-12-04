@@ -133,6 +133,55 @@ class TestAPPLogic(unittest.TestCase):
         self.assertEqual(all_tasks[1]["name"], "Task 2")
         self.assertEqual(all_tasks[2]["name"], "Task 3")
 
+    def test_search_tasks (self):
+        """Test searching 4 tasks by keyword"""
+        self.app_logic.add_task(name="Work Task", category="Work", priority="High")
+        self.app_logic.add_task(name="Personal Task", category="Personal", priority="Medium")
+        self.app_logic.add_task(name="Study Task", category="Study", priority="Low")
+
+        # Test search by name
+        result = self.app_logic.search_tasks("work")
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0]["name"], "Work Task")
+
+        # search by category
+        result = self.app_logic.search_tasks("personal")
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0]["category"], "Personal")
+
+        # search by priority
+        result = self.app_logic.search_tasks("low")
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0]["priority"], "Low")
+
+        # Test no results
+        result = self.app_logic.search_tasks("nonexistent")
+        self.assertEqual(len(result), 0)
+
+    def test_edit_task(self):
+        self.app_logic.add_task(name="Test Task", category="Work", priority="High")
+
+        task_id = 1  # ID of the task we just added
+
+        # Edit task's name & priority
+        result = self.app_logic.edit_task(task_id, name="Updated Task", priority="Low")
+
+        # Assert that task was edited successfully
+        self.assertTrue(result)  # Ensure edit_task returns True
+
+        # Get edited task
+        task = self.app_logic.tasks[0]
+
+        # Check that task's name & priority were updated
+        self.assertEqual(task["name"], "Updated Task")
+        self.assertEqual(task["priority"], "Low")
+
+    def test_edit_task_nonexisting(self):
+        """Test editing a task that does not exist."""
+        result = self.app_logic.edit_task(task_id=999, name="Non-Existent Task")  # Try to edit a task with a non-existent ID
+
+        # check that result = False since task doesn't exist
+        self.assertFalse(result)
 
 if __name__ == '__main__':
     unittest.main()
