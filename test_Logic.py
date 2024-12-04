@@ -176,12 +176,30 @@ class TestAPPLogic(unittest.TestCase):
         self.assertEqual(task["name"], "Updated Task")
         self.assertEqual(task["priority"], "Low")
 
-    def test_edit_task_nonexisting(self):
+    def test_edit_task_nonexistent(self):
         """Test editing a task that does not exist."""
         result = self.app_logic.edit_task(task_id=999, name="Non-Existent Task")  # Try to edit a task with a non-existent ID
 
         # check that result = False since task doesn't exist
         self.assertFalse(result)
+
+
+    """ TEST UTILITY FUNCTIONS!!!"""
+    def test_validate_valid_input (self):
+        """Test that valid input passes validation."""
+        result = self.app_logic.validate_input(name="Test Task", category="Work", priority="High")
+        self.assertTrue(result)
+
+    def test_validate_invalid_input(self):
+        """Test that empty name fails validation."""
+        result = self.app_logic.validate_input(name="", category="Work", priority="High")
+        self.assertFalse(result)
+
+    def test_validate_input_invalid_priority(self):
+        """Test that an invalid priority fails validation."""
+        result = self.app_logic.validate_input(name="Test Task", category="Work", priority="Urgent")
+        self.assertFalse(result)
+
 
 if __name__ == '__main__':
     unittest.main()
