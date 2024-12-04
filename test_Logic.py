@@ -118,5 +118,21 @@ class TestAPPLogic(unittest.TestCase):
         self.assertEqual(completed_tasks[1]["id"], 3)  # Check second completed task
         self.assertTrue(all(task["status"] == "Completed" for task in completed_tasks))  # Verify status
 
+    def test_get_all_tasks(self):
+        """Test getting all tasks"""
+        self.app_logic.add_task(name="Task 1", category="Work", priority="High")
+        self.app_logic.add_task(name="Task 2", category="Personal", priority="Medium")
+        self.app_logic.add_task(name="Task 3", category="Study", priority="Low")
+
+        all_tasks = self.app_logic.get_all_tasks()
+
+        # check number of tasks retrieved
+        self.assertEqual(len(all_tasks), 3)  # Expect 3 tasks
+        # Check if tasks match what was added
+        self.assertEqual(all_tasks[0]["name"], "Task 1")
+        self.assertEqual(all_tasks[1]["name"], "Task 2")
+        self.assertEqual(all_tasks[2]["name"], "Task 3")
+
+
 if __name__ == '__main__':
     unittest.main()
