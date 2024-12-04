@@ -45,6 +45,39 @@ class TestAPPLogic(unittest.TestCase):
         # Verify total number of tasks
         self.assertEqual(len(self.app_logic.tasks), 2)
 
+    def test_delete_existing_task(self):
+        """Test deleting a task already existing in a list"""
+        #add some tasks
+        self.app_logic.add_task("Task 1", "Work", "High")
+        self.app_logic.add_task("Task 2", "Personal", "Medium")
+
+        #verify initial task count
+        self.assertEqual(len(self.app_logic.tasks), 2)
+
+        #delete first task
+        result = self.app_logic.delete_task(1)
+
+        # Assert that deletion was successful
+        self.assertTrue(result)
+
+        # Assert that task list has decreased in size
+        self.assertEqual(len(self.app_logic.tasks), 1)
+
+        # Assert that the remaining task is the correct one
+        self.assertEqual(self.app_logic.tasks[0]["id"], 2)
+
+    def test_delete_nonexistent_task(self):
+        """Test deleting a task that does not exist."""
+        self.app_logic.add_task("Task 1", "Work", "High")
+
+        # Try to delete a non-existent task
+        result = self.app_logic.delete_task(99)  # ID 99 does not exist
+
+        # Assert that deletion was unsuccessful
+        self.assertFalse(result)
+
+        # Assert that task list size stays the same
+        self.assertEqual(len(self.app_logic.tasks), 1)
 
 
 if __name__ == '__main__':
