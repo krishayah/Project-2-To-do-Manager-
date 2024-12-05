@@ -7,6 +7,7 @@
 
 
 from PyQt6 import QtCore, QtWidgets
+from Logic import APPLogic
 
 class Ui_To_Do_List(object):
     """

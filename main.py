@@ -1,24 +1,19 @@
 import sys
-
-from PyQt6.QtWidgets import QMainWindow, QApplication
+from PyQt6.QtWidgets import *
 from Logic import APPLogic
 from gui import Ui_To_Do_List
 
-class MainWindow (QMainWindow):
-    """
-    Main application window for To-Do List Manager
-    """
-    def __init__(self):
-        super().__init__()
-        self.ui = Ui_To_Do_List()
-        self.ui.setupUi(self)
-
 def main():
-    """
-    Main entry point for the application.
-    """
     app = QApplication(sys.argv)  # Create the application
-    window = MainWindow()         # Create the main window
+    window = QMainWindow()         # Create the main window
+
+    #setup UI & logic
+    ui = Ui_To_Do_List()
+    ui.setupUi(window)
+
+    #Pass UI instance to logic class
+    logic = APPLogic
+
     window.show()                 # Show the main window
     sys.exit(app.exec())          # Execute the application event loop
 
